@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textViewAccountNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="16dp"
+        android:text="Número da conta: 123456789"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:text="Saldo: R$ 1000,00"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/textViewAccountNumber"
+        app:layout_constraintTop_toBottomOf="@id/textViewAccountNumber" />
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Nome: Fulano de Tal"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/textViewBalance"
+        app:layout_constraintTop_toBottomOf="@id/textViewBalance" />
+
+    <Button
+        android:id="@+id/buttonDeposit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="136dp"
+        android:text="Depósito"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewName" />
+
+    <Button
+        android:id="@+id/buttonWithdraw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="136dp"
+        android:text="Saque"
+        app:layout_constraintStart_toEndOf="@id/buttonDeposit"
+        app:layout_constraintTop_toBottomOf="@id/textViewName" />
+
+    <Button
+        android:id="@+id/buttonTransfer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="136dp"
+        android:text="Transferência"
+        app:layout_constraintStart_toEndOf="@id/buttonWithdraw"
+        app:layout_constraintTop_toBottomOf="@id/textViewName" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
