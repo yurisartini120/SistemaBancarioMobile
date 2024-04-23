@@ -1,68 +1,64 @@
-// MainActivity.java
 package DevAndroid.SistemaBancarioMobile;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText accountNumberEditText;
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
+    private Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        accountNumberEditText = findViewById(R.id.edit_text_account_number);
-        usernameEditText = findViewById(R.id.edit_text_username);
-        passwordEditText = findViewById(R.id.edit_text_password);
+        usernameEditText = findViewById(R.id.edit_text_usuario);
+        passwordEditText = findViewById(R.id.edit_text_senha);
         loginButton = findViewById(R.id.button_login);
+        registerButton = findViewById(R.id.button_register);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                Log.d("Login", "Login button clicked");
+                String username = usernameEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
 
+                // Verificar se os campos de login e senha estão vazios
+                if (username.isEmpty() || password.isEmpty()) {
+                    // Exibir mensagem de erro se os campos estiverem vazios
+                    usernameEditText.setError("Por favor, preencha o nome de usuário");
+                    passwordEditText.setError("Por favor, preencha a senha");
+                    return;
+                }
+
+                // Verificar se o nome de usuário e a senha estão corretos
+                if (username.equals("yuri") && password.equals("123")) {
+                    // Abrir a tela principal
+                    Intent intent = new Intent(MainActivity.this, TelaPrincipal.class);
+                    startActivity(intent);
+                } else {
+                    // Exibir mensagem de erro se o nome de usuário ou senha estiverem incorretos
+                    usernameEditText.setError("Nome de usuário ou senha incorretos");
+                }
             }
         });
-    }
 
-    private void login() {
-        String accountNumber = accountNumberEditText.getText().toString();
-        String username = usernameEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-
-        // Verifique se os campos estão vazios
-        if (accountNumber.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(MainActivity.this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Aqui você pode adicionar a lógica de validação com seu backend
-        // Por enquanto, vamos apenas simular um login bem-sucedido se o usuário e a senha forem "admin"
-        if (username.equals("admin") && password.equals("admin")) {
-            // Login bem-sucedido
-            Toast.makeText(MainActivity.this, "Login bem-sucedido", Toast.LENGTH_SHORT).show();
-            // Abrir a tela principal
-            openTelaPrincipal();
-        } else {
-            // Login falhou
-            Toast.makeText(MainActivity.this, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    // Método para abrir a tela principal
-    private void openTelaPrincipal() {
-        Intent intent = new Intent(this, TelaPrincipal.class);
-        startActivity(intent);
-        finish();
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Abrir a tela de registro
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

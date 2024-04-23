@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/edit_text_account_number"
+        android:id="@+id/edit_text_conta_numero"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edit_text_username"
+        android:id="@+id/edit_text_usuario"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -30,10 +30,10 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_account_number" />
+        app:layout_constraintTop_toBottomOf="@id/edit_text_conta_numero" />
 
     <EditText
-        android:id="@+id/edit_text_password"
+        android:id="@+id/edit_text_senha"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -44,7 +44,7 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_username" />
+        app:layout_constraintTop_toBottomOf="@id/edit_text_usuario" />
 
     <Button
         android:id="@+id/button_login"
@@ -56,21 +56,16 @@
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_password" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_senha" />
 
-    <TextView
-        android:id="@+id/text_view_register"
+    <Button
+        android:id="@+id/button_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:minHeight="48dp"
-        android:onClick="openRegisterActivity"
-        android:text="Register"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textStyle="bold"
+        android:text="Registrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login"
-        tools:ignore="OnClick" />
+        app:layout_constraintTop_toBottomOf="@id/button_login"
+        android:layout_marginTop="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
