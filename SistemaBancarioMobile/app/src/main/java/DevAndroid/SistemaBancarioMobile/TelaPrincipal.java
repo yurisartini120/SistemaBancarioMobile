@@ -1,5 +1,7 @@
 package DevAndroid.SistemaBancarioMobile;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,23 +14,24 @@ public class TelaPrincipal extends AppCompatActivity {
     private TextView textViewAccountNumber;
     private TextView textViewBalance;
     private TextView textViewName;
-    private Button buttonDeposit;
-    private Button buttonWithdraw;
-    private Button buttonTransfer;
+    private Button buttonDeposito;
+    private Button buttonSaque;
+    private Button buttonTransferencia;
 
     private double saldo = 1000.00;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_principal);
 
-        textViewAccountNumber = findViewById(R.id.textViewAccountNumber);
-        textViewBalance = findViewById(R.id.textViewBalance);
-        textViewName = findViewById(R.id.textViewName);
-        buttonDeposit = findViewById(R.id.buttonDeposit);
-        buttonWithdraw = findViewById(R.id.buttonWithdraw);
-        buttonTransfer = findViewById(R.id.buttonTransfer);
+        textViewAccountNumber = findViewById(R.id.textViewNumeroConta);
+        textViewBalance = findViewById(R.id.textViewSaldo);
+        textViewName = findViewById(R.id.textViewNome);
+        buttonDeposito = findViewById(R.id.buttonDeposito);
+        buttonSaque = findViewById(R.id.buttonSaque);
+        buttonTransferencia = findViewById(R.id.buttonTransferencia);
 
         // Simulando dados do cliente
         String accountNumber = "123456789";
@@ -38,61 +41,43 @@ public class TelaPrincipal extends AppCompatActivity {
         textViewName.setText("Nome: " + name);
         textViewBalance.setText("Saldo: R$ " + saldo);
 
-        buttonDeposit.setOnClickListener(new View.OnClickListener() {
+
+        buttonDeposito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deposit();
+                Intent intent = new Intent(TelaPrincipal.this, DepositotActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
-        buttonWithdraw.setOnClickListener(new View.OnClickListener() {
+        buttonSaque.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                withdraw();
+                Intent intent = new Intent(TelaPrincipal.this, SaqueActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
-        buttonTransfer.setOnClickListener(new View.OnClickListener() {
+        buttonTransferencia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transfer();
+                Intent intent = new Intent(TelaPrincipal.this, TransferenciaActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
+
     }
 
-    private void deposit() {
-        // Simulando um depósito de R$ 200.00
-        double valorDeposito = 200.00;
-        saldo += valorDeposito;
-        atualizarSaldo();
-        Toast.makeText(this, "Depósito de R$ " + valorDeposito + " realizado com sucesso", Toast.LENGTH_SHORT).show();
-    }
 
-    private void withdraw() {
-        // Simulando um saque de R$ 100.00
-        double valorSaque = 100.00;
-        if (saldo >= valorSaque) {
-            saldo -= valorSaque;
-            atualizarSaldo();
-            Toast.makeText(this, "Saque de R$ " + valorSaque + " realizado com sucesso", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
-        }
-    }
 
-    private void transfer() {
-        // Simulando uma transferência de R$ 300.00
-        double valorTransferencia = 300.00;
-        if (saldo >= valorTransferencia) {
-            saldo -= valorTransferencia;
-            atualizarSaldo();
-            Toast.makeText(this, "Transferência de R$ " + valorTransferencia + " realizada com sucesso", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
-        }
-    }
 
-    private void atualizarSaldo() {
-        textViewBalance.setText("Saldo: R$ " + saldo);
-    }
+
+
+
+
 }
+
+

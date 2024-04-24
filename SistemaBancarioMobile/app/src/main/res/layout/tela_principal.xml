@@ -7,63 +7,63 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textViewAccountNumber"
+        android:id="@+id/textViewNumeroConta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="84dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="48dp"
         android:text="Número da conta: 123456789"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewBalance"
+        android:id="@+id/textViewSaldo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:text="Saldo: R$ 1000,00"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/textViewAccountNumber"
-        app:layout_constraintTop_toBottomOf="@id/textViewAccountNumber" />
+        app:layout_constraintStart_toStartOf="@id/textViewNumeroConta"
+        app:layout_constraintTop_toBottomOf="@id/textViewNumeroConta" />
 
     <TextView
-        android:id="@+id/textViewName"
+        android:id="@+id/textViewNome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Nome: Fulano de Tal"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/textViewBalance"
-        app:layout_constraintTop_toBottomOf="@id/textViewBalance" />
+        app:layout_constraintStart_toStartOf="@id/textViewSaldo"
+        app:layout_constraintTop_toBottomOf="@id/textViewSaldo" />
 
     <Button
-        android:id="@+id/buttonDeposit"
+        android:id="@+id/buttonDeposito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="136dp"
         android:text="Depósito"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewName" />
+        app:layout_constraintTop_toBottomOf="@id/textViewNome" />
 
     <Button
-        android:id="@+id/buttonWithdraw"
+        android:id="@+id/buttonSaque"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="136dp"
         android:text="Saque"
-        app:layout_constraintStart_toEndOf="@id/buttonDeposit"
-        app:layout_constraintTop_toBottomOf="@id/textViewName" />
+        app:layout_constraintStart_toEndOf="@id/buttonDeposito"
+        app:layout_constraintTop_toBottomOf="@id/textViewNome" />
 
     <Button
-        android:id="@+id/buttonTransfer"
+        android:id="@+id/buttonTransferencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="136dp"
         android:text="Transferência"
-        app:layout_constraintStart_toEndOf="@id/buttonWithdraw"
-        app:layout_constraintTop_toBottomOf="@id/textViewName" />
+        app:layout_constraintStart_toEndOf="@id/buttonSaque"
+        app:layout_constraintTop_toBottomOf="@id/textViewNome" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
