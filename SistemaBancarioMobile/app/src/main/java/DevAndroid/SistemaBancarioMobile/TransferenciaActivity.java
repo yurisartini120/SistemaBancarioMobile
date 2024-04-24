@@ -1,5 +1,6 @@
 package DevAndroid.SistemaBancarioMobile;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ public class TransferenciaActivity extends Activity {
     private EditText editTextRecipient;
     private Button buttonTransfer;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -42,8 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
                 // Verificar se o nome de usuário e a senha estão corretos
                 if (username.equals("yuri") && password.equals("123")) {
-                    // Abrir a tela principal
+                    // Abrir a tela principal e passar os dados do usuário
                     Intent intent = new Intent(MainActivity.this, TelaPrincipal.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("accountNumber", "123456789");
+                    intent.putExtra("name", "Fulano de Tal");
+                    intent.putExtra("balance", 1000.00);
                     startActivity(intent);
                 } else {
                     // Exibir mensagem de erro se o nome de usuário ou senha estiverem incorretos
