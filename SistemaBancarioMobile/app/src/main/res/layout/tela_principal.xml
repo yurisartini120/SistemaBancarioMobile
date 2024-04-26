@@ -6,11 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".TelaPrincipal">
 
+
+    <TextView
+        android:id="@+id/textViewUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Usuário: "
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@id/textViewSaldo"
+        app:layout_constraintTop_toBottomOf="@id/textViewSaldo" />
+
     <TextView
         android:id="@+id/textViewNumeroConta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
+        android:layout_marginStart="116dp"
         android:layout_marginTop="48dp"
         android:text="Número da conta: "
         android:textSize="18sp"
@@ -21,40 +33,19 @@
         android:id="@+id/textViewSaldo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="48dp"
         android:text="Saldo: R$ "
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@id/textViewNumeroConta"
         app:layout_constraintTop_toBottomOf="@id/textViewNumeroConta" />
 
- 
-
-    <TextView
-        android:id="@+id/textViewUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Usuário: "
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/textViewSaldo"
-        app:layout_constraintTop_toBottomOf="@id/textViewSaldo" />
-
-    <Button
-        android:id="@+id/buttonDeposito"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="136dp"
-        android:text="Depósito"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewUsername" />
-
     <Button
         android:id="@+id/buttonSaque"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="212dp"
+        android:backgroundTint="#004AAD"
         android:text="Saque"
         app:layout_constraintStart_toEndOf="@id/buttonDeposito"
         app:layout_constraintTop_toBottomOf="@id/textViewUsername" />
@@ -63,9 +54,22 @@
         android:id="@+id/buttonTransferencia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="136dp"
+        android:backgroundTint="#004AAD"
         android:text="Transferência"
         app:layout_constraintStart_toEndOf="@id/buttonSaque"
+        app:layout_constraintTop_toBottomOf="@id/textViewUsername" />
+
+    <Button
+        android:id="@+id/buttonDeposito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="136dp"
+        android:backgroundTint="#004AAD"
+        android:text="Depósito"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewUsername" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

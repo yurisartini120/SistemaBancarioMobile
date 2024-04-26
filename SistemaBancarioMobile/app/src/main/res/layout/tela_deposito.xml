@@ -23,6 +23,7 @@
         android:id="@+id/buttonDeposit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#004AAD"
         android:text="Depositar"
         app:layout_constraintEnd_toEndOf="@+id/editTextAmount"
         app:layout_constraintStart_toStartOf="@+id/editTextAmount"

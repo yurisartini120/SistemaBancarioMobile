@@ -12,7 +12,6 @@ public class TelaPrincipal extends AppCompatActivity {
 
     private TextView textViewAccountNumber;
     private TextView textViewBalance;
-    private TextView textViewName;
     private TextView textViewUsername;
     private Button buttonDeposito;
     private Button buttonSaque;
@@ -26,7 +25,6 @@ public class TelaPrincipal extends AppCompatActivity {
 
         textViewAccountNumber = findViewById(R.id.textViewNumeroConta);
         textViewBalance = findViewById(R.id.textViewSaldo);
-        textViewName = findViewById(R.id.textViewNome);
         textViewUsername = findViewById(R.id.textViewUsername);
         buttonDeposito = findViewById(R.id.buttonDeposito);
         buttonSaque = findViewById(R.id.buttonSaque);
