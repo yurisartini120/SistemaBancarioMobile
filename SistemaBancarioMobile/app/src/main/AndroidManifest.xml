@@ -28,7 +28,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".TelaPrincipal" />
         <activity android:name=".SaqueActivity" />
-        <activity android:name=".DepositotActivity" />
+        <activity android:name=".DepositoActivity" />
         <activity android:name=".TransferenciaActivity" />
 
     </application>
