@@ -16,7 +16,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText fullNameEditText;
     private EditText emailEditText;
-    private EditText passwordEditText;
     private Button registerButton;
     private Set<String> accountNumbers = new HashSet<>();
 
@@ -27,7 +26,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         fullNameEditText = findViewById(R.id.edit_text_full_name);
         emailEditText = findViewById(R.id.edit_text_email);
-        passwordEditText = findViewById(R.id.edit_text_password);
         registerButton = findViewById(R.id.button_register);
 
         // Simulando uma lista de números de conta já existentes
@@ -46,9 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
     private void register() {
         String fullName = fullNameEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
 
-        if (fullName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (fullName.isEmpty() || email.isEmpty()) {
             Toast.makeText(RegisterActivity.this, "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show();
             return;
         }
