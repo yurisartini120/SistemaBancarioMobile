@@ -1,3 +1,5 @@
+// MainActivity.java
+
 package DevAndroid.SistemaBancarioMobile;
 
 import android.content.Intent;
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     // Abrir a tela principal e passar os dados do usuário
                     Intent intent = new Intent(MainActivity.this, TelaPrincipal.class);
                     intent.putExtra("username", username);
-                    intent.putExtra("accountNumber", "123456789");
+                    intent.putExtra("accountNumber", "123456");
                     intent.putExtra("name", "Fulano de Tal");
                     intent.putExtra("balance", 1000.00);
                     startActivity(intent);
