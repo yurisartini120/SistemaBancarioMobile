@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, TelaPrincipal.class);
                     intent.putExtra("username", username);
                     intent.putExtra("accountNumber", "123456");
-                    intent.putExtra("balance", 1000.00);
+                    intent.putExtra("balance", 0);
                     startActivity(intent);
                 } else {
                     // Exibir mensagem de erro se o nome de usuário estiver incorreto

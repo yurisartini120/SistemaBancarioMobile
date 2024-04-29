@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TelaPrincipal extends AppCompatActivity {
@@ -67,8 +68,10 @@ public class TelaPrincipal extends AppCompatActivity {
         String accountNumber = intent.getStringExtra("accountNumber");
         double balance = intent.getDoubleExtra("balance", 0.0);
 
+        saldo = balance; // Atualiza o saldo com o valor passado
+
         textViewAccountNumber.setText("Número da conta: " + accountNumber);
-        textViewBalance.setText("Saldo: R$ " + balance);
+        textViewBalance.setText("Saldo: R$ " + saldo);
         textViewUsername.setText("Usuário: " + username);
     }
 
@@ -78,12 +81,12 @@ public class TelaPrincipal extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE_DEPOSIT && resultCode == RESULT_OK) {
             double amountDeposited = data.getDoubleExtra("amountDeposited", 0.0);
-            saldo += amountDeposited; // Atualize o saldo com o valor depositado
-            updateBalance(); // Atualize o saldo na tela
+            saldo += amountDeposited; // Atualiza o saldo com o valor depositado
+            updateBalance(); // Atualiza o saldo na tela
         } else if (requestCode == REQUEST_CODE_WITHDRAW && resultCode == RESULT_OK) {
             double amountWithdrawn = data.getDoubleExtra("amountWithdrawn", 0.0);
-            saldo -= amountWithdrawn; // Atualize o saldo com o valor sacado
-            updateBalance(); // Atualize o saldo na tela
+            saldo -= amountWithdrawn; // Atualiza o saldo com o valor sacado
+            updateBalance(); // Atualiza o saldo na tela
         }
     }
 
