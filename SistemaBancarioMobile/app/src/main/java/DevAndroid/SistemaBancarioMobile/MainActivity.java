@@ -1,5 +1,3 @@
-// MainActivity.java
-
 package DevAndroid.SistemaBancarioMobile;
 
 import android.content.Intent;
@@ -13,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private EditText usernameEditText;
-    private EditText passwordEditText;
     private Button loginButton;
     private Button registerButton;
 
@@ -31,28 +28,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("Login", "Login button clicked");
                 String username = usernameEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
 
-                // Verificar se os campos de login e senha estão vazios
-                if (username.isEmpty() || password.isEmpty()) {
-                    // Exibir mensagem de erro se os campos estiverem vazios
+                // Verificar se o campo de usuário está vazio
+                if (username.isEmpty()) {
+                    // Exibir mensagem de erro se o campo estiver vazio
                     usernameEditText.setError("Por favor, preencha o nome de usuário");
-                    passwordEditText.setError("Por favor, preencha a senha");
                     return;
                 }
 
-                // Verificar se o nome de usuário e a senha estão corretos
-                if (username.equals("yuri") && password.equals("123")) {
+                // Verificar se o nome de usuário está correto
+                if (username.equals("yuri")) {
                     // Abrir a tela principal e passar os dados do usuário
                     Intent intent = new Intent(MainActivity.this, TelaPrincipal.class);
                     intent.putExtra("username", username);
                     intent.putExtra("accountNumber", "123456");
-                    intent.putExtra("name", "Fulano de Tal");
                     intent.putExtra("balance", 1000.00);
                     startActivity(intent);
                 } else {
-                    // Exibir mensagem de erro se o nome de usuário ou senha estiverem incorretos
-                    usernameEditText.setError("Nome de usuário ou senha incorretos");
+                    // Exibir mensagem de erro se o nome de usuário estiver incorreto
+                    usernameEditText.setError("Nome de usuário incorreto");
                 }
             }
         });

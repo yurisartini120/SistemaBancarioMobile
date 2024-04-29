@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         fullNameEditText = findViewById(R.id.edit_text_full_name);
         emailEditText = findViewById(R.id.edit_text_email);
-        passwordEditText = findViewById(R.id.edit_text_password);
+
         registerButton = findViewById(R.id.button_register);
 
         // Simulando uma lista de números de conta já existentes
