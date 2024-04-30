@@ -1,3 +1,5 @@
+// TelaPrincipal.java
+
 package DevAndroid.SistemaBancarioMobile;
 
 import android.content.Intent;
@@ -17,7 +19,7 @@ public class TelaPrincipal extends AppCompatActivity {
     private Button buttonSaque;
     private Button buttonTransferencia;
 
-    private double saldo = 0.0; // Saldo inicial
+    private double saldo = 0.0;
 
     private static final int REQUEST_CODE_DEPOSIT = 1;
     private static final int REQUEST_CODE_WITHDRAW = 2;
@@ -34,7 +36,14 @@ public class TelaPrincipal extends AppCompatActivity {
         buttonSaque = findViewById(R.id.buttonSaque);
         buttonTransferencia = findViewById(R.id.buttonTransferencia);
 
-        loadAccountInfo(); // Carrega informações da conta do usuário
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("username");
+        String accountNumber = intent.getStringExtra("accountNumber");
+        saldo = intent.getDoubleExtra("saldo", 0.0);
+
+        textViewAccountNumber.setText("Número da conta: " + accountNumber);
+        textViewBalance.setText("Saldo: R$ " + saldo);
+        textViewUsername.setText("Usuário: " + username);
 
         buttonDeposito.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +57,7 @@ public class TelaPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TelaPrincipal.this, SaqueActivity.class);
+                intent.putExtra("saldo", saldo);
                 startActivityForResult(intent, REQUEST_CODE_WITHDRAW);
             }
         });
@@ -57,22 +67,8 @@ public class TelaPrincipal extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(TelaPrincipal.this, TransferenciaActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
-    }
-
-    private void loadAccountInfo() {
-        Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
-        String accountNumber = intent.getStringExtra("accountNumber");
-        double balance = intent.getDoubleExtra("balance", 0.0);
-
-        saldo = balance; // Atualiza o saldo com o valor passado
-
-        textViewAccountNumber.setText("Número da conta: " + accountNumber);
-        textViewBalance.setText("Saldo: R$ " + saldo);
-        textViewUsername.setText("Usuário: " + username);
     }
 
     @Override
@@ -81,16 +77,12 @@ public class TelaPrincipal extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE_DEPOSIT && resultCode == RESULT_OK) {
             double amountDeposited = data.getDoubleExtra("amountDeposited", 0.0);
-            saldo += amountDeposited; // Atualiza o saldo com o valor depositado
-            updateBalance(); // Atualiza o saldo na tela
+            saldo += amountDeposited;
+            textViewBalance.setText("Saldo: R$ " + saldo);
         } else if (requestCode == REQUEST_CODE_WITHDRAW && resultCode == RESULT_OK) {
             double amountWithdrawn = data.getDoubleExtra("amountWithdrawn", 0.0);
-            saldo -= amountWithdrawn; // Atualiza o saldo com o valor sacado
-            updateBalance(); // Atualiza o saldo na tela
+            saldo -= amountWithdrawn;
+            textViewBalance.setText("Saldo: R$ " + saldo);
         }
-    }
-
-    private void updateBalance() {
-        textViewBalance.setText("Saldo: R$ " + saldo);
     }
 }
