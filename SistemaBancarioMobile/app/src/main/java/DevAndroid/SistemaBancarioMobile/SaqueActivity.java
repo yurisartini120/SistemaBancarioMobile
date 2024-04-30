@@ -1,8 +1,8 @@
 package DevAndroid.SistemaBancarioMobile;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,14 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import DevAndroid.SistemaBancarioMobile.MobileDB;
-import DevAndroid.SistemaBancarioMobile.R;
-
 public class SaqueActivity extends Activity {
 
     private EditText editTextAmount;
     private Button buttonWithdraw;
-    private SQLiteDatabase database;
     private MobileDB mobileDB;
 
     @Override
@@ -27,7 +23,6 @@ public class SaqueActivity extends Activity {
         setContentView(R.layout.tela_saque);
 
         mobileDB = new MobileDB(this);
-        database = mobileDB.getWritableDatabase();
 
         editTextAmount = findViewById(R.id.editTextAmount);
         buttonWithdraw = findViewById(R.id.buttonWithdraw);
@@ -47,6 +42,8 @@ public class SaqueActivity extends Activity {
     }
 
     private void withdraw(double amount) {
+        SQLiteDatabase database = mobileDB.getWritableDatabase();
+
         // Verifica se há saldo suficiente
         Cursor cursor = database.query(
                 MobileDB.TABLE_ACCOUNTS,
@@ -66,7 +63,13 @@ public class SaqueActivity extends Activity {
                 values.put(MobileDB.COLUMN_BALANCE, saldo);
 
                 // Atualiza o saldo na tabela de contas
-                database.update(MobileDB.TABLE_ACCOUNTS, values, null, null);
+                database.beginTransaction();
+                try {
+                    database.update(MobileDB.TABLE_ACCOUNTS, values, null, null);
+                    database.setTransactionSuccessful();
+                } finally {
+                    database.endTransaction();
+                }
 
                 // Exibe uma mensagem de sucesso
                 Toast.makeText(this, "Saque de R$" + amount + " realizado com sucesso!", Toast.LENGTH_SHORT).show();

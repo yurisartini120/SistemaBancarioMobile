@@ -1,10 +1,6 @@
-// TelaPrincipal.java
-
 package DevAndroid.SistemaBancarioMobile;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +18,9 @@ public class TelaPrincipal extends AppCompatActivity {
     private Button buttonTransferencia;
 
     private double saldo = 0.0; // Saldo inicial
+
+    private static final int REQUEST_CODE_DEPOSIT = 1;
+    private static final int REQUEST_CODE_WITHDRAW = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,6 @@ public class TelaPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TelaPrincipal.this, DepositoActivity.class);
-                int REQUEST_CODE_DEPOSIT = 0;
                 startActivityForResult(intent, REQUEST_CODE_DEPOSIT);
             }
         });
@@ -50,7 +48,6 @@ public class TelaPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TelaPrincipal.this, SaqueActivity.class);
-                int REQUEST_CODE_WITHDRAW = 0;
                 startActivityForResult(intent, REQUEST_CODE_WITHDRAW);
             }
         });
@@ -71,8 +68,29 @@ public class TelaPrincipal extends AppCompatActivity {
         String accountNumber = intent.getStringExtra("accountNumber");
         double balance = intent.getDoubleExtra("balance", 0.0);
 
+        saldo = balance; // Atualiza o saldo com o valor passado
+
         textViewAccountNumber.setText("Número da conta: " + accountNumber);
-        textViewBalance.setText("Saldo: R$ " + balance);
+        textViewBalance.setText("Saldo: R$ " + saldo);
         textViewUsername.setText("Usuário: " + username);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_DEPOSIT && resultCode == RESULT_OK) {
+            double amountDeposited = data.getDoubleExtra("amountDeposited", 0.0);
+            saldo += amountDeposited; // Atualiza o saldo com o valor depositado
+            updateBalance(); // Atualiza o saldo na tela
+        } else if (requestCode == REQUEST_CODE_WITHDRAW && resultCode == RESULT_OK) {
+            double amountWithdrawn = data.getDoubleExtra("amountWithdrawn", 0.0);
+            saldo -= amountWithdrawn; // Atualiza o saldo com o valor sacado
+            updateBalance(); // Atualiza o saldo na tela
+        }
+    }
+
+    private void updateBalance() {
+        textViewBalance.setText("Saldo: R$ " + saldo);
     }
 }
