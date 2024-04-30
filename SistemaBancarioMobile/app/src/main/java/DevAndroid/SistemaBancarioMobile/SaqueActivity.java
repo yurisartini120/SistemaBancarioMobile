@@ -1,10 +1,9 @@
+// SaqueActivity.java
+
 package DevAndroid.SistemaBancarioMobile;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,17 +14,18 @@ public class SaqueActivity extends Activity {
 
     private EditText editTextAmount;
     private Button buttonWithdraw;
-    private MobileDB mobileDB;
+    private double saldo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_saque);
 
-        mobileDB = new MobileDB(this);
-
         editTextAmount = findViewById(R.id.editTextAmount);
         buttonWithdraw = findViewById(R.id.buttonWithdraw);
+
+        Intent intent = getIntent();
+        saldo = intent.getDoubleExtra("saldo", 0.0);
 
         buttonWithdraw.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,56 +33,20 @@ public class SaqueActivity extends Activity {
                 String amountString = editTextAmount.getText().toString();
                 if (!amountString.isEmpty()) {
                     double amount = Double.parseDouble(amountString);
-                    withdraw(amount);
+                    if (saldo >= amount) {
+                        saldo -= amount;
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("amountWithdrawn", amount);
+                        resultIntent.putExtra("saldo", saldo);
+                        setResult(RESULT_OK, resultIntent);
+                        finish();
+                    } else {
+                        Toast.makeText(SaqueActivity.this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(SaqueActivity.this, "Informe o valor do saque", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-    }
-
-    private void withdraw(double amount) {
-        SQLiteDatabase database = mobileDB.getWritableDatabase();
-
-        // Verifica se há saldo suficiente
-        Cursor cursor = database.query(
-                MobileDB.TABLE_ACCOUNTS,
-                new String[]{MobileDB.COLUMN_BALANCE},
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
-        if (cursor != null && cursor.moveToFirst()) {
-            double saldo = cursor.getDouble(cursor.getColumnIndexOrThrow(MobileDB.COLUMN_BALANCE));
-            if (saldo >= amount) {
-                saldo -= amount;
-                ContentValues values = new ContentValues();
-                values.put(MobileDB.COLUMN_BALANCE, saldo);
-
-                // Atualiza o saldo na tabela de contas
-                database.beginTransaction();
-                try {
-                    database.update(MobileDB.TABLE_ACCOUNTS, values, null, null);
-                    database.setTransactionSuccessful();
-                } finally {
-                    database.endTransaction();
-                }
-
-                // Exibe uma mensagem de sucesso
-                Toast.makeText(this, "Saque de R$" + amount + " realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("amountWithdrawn", amount);
-                setResult(RESULT_OK, resultIntent);
-                finish();
-            } else {
-                // Exibe uma mensagem de saldo insuficiente
-                Toast.makeText(this, "Saldo insuficiente", Toast.LENGTH_SHORT).show();
-            }
-
-            cursor.close();
-        }
     }
 }
