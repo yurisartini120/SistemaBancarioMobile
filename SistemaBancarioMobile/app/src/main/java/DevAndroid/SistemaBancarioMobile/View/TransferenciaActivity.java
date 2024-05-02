@@ -1,4 +1,4 @@
-package DevAndroid.SistemaBancarioMobile;
+package DevAndroid.SistemaBancarioMobile.View;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import DevAndroid.SistemaBancarioMobile.R;
 
 public class TransferenciaActivity extends Activity {
 

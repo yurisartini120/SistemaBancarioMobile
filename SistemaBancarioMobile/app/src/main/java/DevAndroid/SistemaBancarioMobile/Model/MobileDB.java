@@ -1,4 +1,4 @@
-package DevAndroid.SistemaBancarioMobile;
+package DevAndroid.SistemaBancarioMobile.Model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,6 +28,7 @@ public class MobileDB extends SQLiteOpenHelper {
     public MobileDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {

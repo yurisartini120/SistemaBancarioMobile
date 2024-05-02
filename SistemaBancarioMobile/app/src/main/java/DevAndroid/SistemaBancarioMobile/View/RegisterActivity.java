@@ -1,4 +1,4 @@
-package DevAndroid.SistemaBancarioMobile;
+package DevAndroid.SistemaBancarioMobile.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.HashSet;
 import java.util.Set;
+
+import DevAndroid.SistemaBancarioMobile.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package DevAndroid.SistemaBancarioMobile;
+package DevAndroid.SistemaBancarioMobile.View;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import DevAndroid.SistemaBancarioMobile.MobileDB;
+import DevAndroid.SistemaBancarioMobile.Model.MobileDB;
 import DevAndroid.SistemaBancarioMobile.R;
 
 public class DepositoActivity extends Activity {
@@ -49,7 +49,7 @@ public class DepositoActivity extends Activity {
         ContentValues values = new ContentValues();
         values.put(MobileDB.COLUMN_BALANCE, amount);
 
-        // Atualiza o saldo na tabela de contas
+//         Atualiza o saldo na tabela de contas
         database.update(MobileDB.TABLE_ACCOUNTS, values, null, null);
 
         // Para fins de demonstração, vamos apenas enviar o valor depositado de volta

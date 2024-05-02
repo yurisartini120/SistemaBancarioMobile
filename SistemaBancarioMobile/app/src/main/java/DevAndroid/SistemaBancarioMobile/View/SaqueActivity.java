@@ -1,6 +1,6 @@
 // SaqueActivity.java
 
-package DevAndroid.SistemaBancarioMobile;
+package DevAndroid.SistemaBancarioMobile.View;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import DevAndroid.SistemaBancarioMobile.R;
 
 public class SaqueActivity extends Activity {
 
