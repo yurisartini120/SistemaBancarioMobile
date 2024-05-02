@@ -11,12 +11,16 @@ import DevAndroid.SistemaBancarioMobile.R;
 
 public class SplashActivity extends AppCompatActivity {
     public static final int TIME_OUT_SPLASH = 5000;
-    SistemaBancario db;
+    private SistemaBancario sistemaBancario; // Instância do SistemaBancario
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_splash);
+
+        // Inicializa a instância do SistemaBancario
+        sistemaBancario = new SistemaBancario(this);
+
         comutartelaSplash();
     }
 
@@ -24,9 +28,11 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                db = new SistemaBancario(SplashActivity.this);
+                // Abre a MainActivity
                 Intent telaPrincipal = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(telaPrincipal);
+
+                // Não feche o banco de dados aqui, apenas finalize a atividade SplashActivity
                 finish();
             }
         }, TIME_OUT_SPLASH);
@@ -35,9 +41,10 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (db != null) {
-            db.fecharBancoDados();
-            Log.d("SplashActivity", "fecharBancoDados() chamado");
+
+        // Certifique-se de fechar o banco de dados quando a atividade estiver prestes a ser destruída
+        if (sistemaBancario != null) {
+            sistemaBancario.fecharBancoDados();
         }
     }
 }
