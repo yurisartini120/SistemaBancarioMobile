@@ -91,7 +91,7 @@
         android:layout_marginEnd="50dp"
 
         android:background="@drawable/btn_background"
-        android:backgroundTint="#004AAD"
+        android:backgroundTint="#081F31"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/txt_sacar"
 
@@ -110,7 +110,7 @@
 
         android:layout_marginTop="48dp"
         android:background="@drawable/btn_background"
-        android:backgroundTint="#004AAD"
+        android:backgroundTint="#081F31"
         android:fontFamily="@font/roboto_medium"
 
         android:text="@string/txt_depositar"
@@ -130,7 +130,7 @@
         android:layout_marginTop="48dp"
 
         android:background="@drawable/btn_background"
-        android:backgroundTint="#004AAD"
+        android:backgroundTint="#081F31"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/txt_transferir"
 

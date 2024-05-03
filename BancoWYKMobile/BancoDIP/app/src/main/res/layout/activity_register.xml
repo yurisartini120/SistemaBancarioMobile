@@ -4,71 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_type01"
+    android:background="@color/white"
     tools:context=".view.RegisterActivity">
 
-    <TextView
-        android:id="@+id/txt_register_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:fontFamily="@font/ubuntu_medium"
-        android:text="@string/app_name"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="50sp"
-        android:textStyle="bold"
-
-
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="255dp"
+        android:layout_height="247dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/linearLayout"
-
-        />
+        app:srcCompat="@drawable/_b2d945b6_b833_4886_8692_0c08a24e8c35_removebg_preview" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="300dp"
-        android:layout_height="400dp"
-        android:orientation="vertical"
+        android:layout_width="291dp"
+        android:layout_height="347dp"
         android:gravity="center"
+        android:orientation="vertical"
 
-        app:layout_constraintTop_toBottomOf="@id/txt_register_main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/txt_dados"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="@string/txt_dados"
-            android:textColor="@color/white"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="30sp"
-
-
-            />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.239">
 
         <EditText
             android:id="@+id/hint_txt_register_nome"
             android:layout_width="250dp"
             android:layout_height="50dp"
-
+            android:backgroundTint="@color/blue_type01"
             android:layout_marginTop="20dp"
 
-            android:background="@drawable/edit_text_background"
-
-            android:padding="10dp"
-            android:textColorHint="@color/blue_type05"
-            android:fontFamily="@font/roboto_medium"
             android:autofillHints="name"
-            android:textColor="@color/white"
 
+            android:background="@drawable/edit_text_background"
+            android:fontFamily="@font/roboto_medium"
             android:hint="@string/hint_name"
             android:inputType="text"
+            android:padding="10dp"
+
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
 
             />
 
@@ -76,19 +54,19 @@
             android:id="@+id/hint_txt_register_email"
             android:layout_width="250dp"
             android:layout_height="50dp"
-
+            android:backgroundTint="@color/blue_type01"
             android:layout_marginTop="20dp"
 
-            android:background="@drawable/edit_text_background"
-
-            android:padding="10dp"
-            android:textColorHint="@color/blue_type05"
-            android:fontFamily="@font/roboto_medium"
             android:autofillHints="emailAddress"
-            android:textColor="@color/white"
 
+            android:background="@drawable/edit_text_background"
+            android:fontFamily="@font/roboto_medium"
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
+            android:padding="10dp"
+
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
 
             />
 
@@ -96,19 +74,19 @@
             android:id="@+id/hint_txt_register_saldo"
             android:layout_width="250dp"
             android:layout_height="50dp"
-
+            android:backgroundTint="@color/blue_type01"
             android:layout_marginTop="20dp"
 
-            android:background="@drawable/edit_text_background"
-
-            android:padding="10dp"
-            android:textColorHint="@color/blue_type05"
-            android:fontFamily="@font/roboto_medium"
             android:autofillHints="null"
-            android:textColor="@color/white"
 
+            android:background="@drawable/edit_text_background"
+            android:fontFamily="@font/roboto_medium"
             android:hint="@string/hint_saldo"
             android:inputType="number|numberDecimal"
+            android:padding="10dp"
+
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
 
             />
 
@@ -117,23 +95,14 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
 
-            android:background="@drawable/btn_background"
-
             android:layout_marginTop="50dp"
 
+            android:background="#081F31"
             android:text="@string/btn_txt_criar_conta"
-            android:textColor="@color/blue_type01"
 
-            />
+            android:textColor="@color/white" />
 
     </LinearLayout>
-
-
-
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,70 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_type01"
+    android:background="@color/white"
     tools:context=".view.LoginActivity">
-
-    <TextView
-        android:id="@+id/txt_login_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="100dp"
-
-        android:text="@string/app_name"
-        android:textColor="@color/white"
-        android:fontFamily="@font/roboto_medium"
-        android:textAllCaps="true"
-        android:textSize="50sp"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:orientation="vertical"
         android:layout_width="350dp"
         android:layout_height="450dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
 
-        app:layout_constraintTop_toBottomOf="@id/txt_login_main"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="@string/txt_dados"
-            android:textColor="@color/white"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="30sp"
-
-            />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.15">
 
         <EditText
             android:id="@+id/hint_txt_nome_login"
             android:layout_width="250dp"
             android:layout_height="50dp"
+            android:backgroundTint="@color/blue_type01"
+            android:layout_marginTop="10dp"
 
-            android:layout_marginTop="20dp"
+            android:autofillHints="name"
 
             android:background="@drawable/edit_text_background"
-
-            android:padding="10dp"
-            android:textColorHint="@color/blue_type05"
             android:fontFamily="@font/roboto_medium"
-            android:autofillHints="name"
-            android:textColor="@color/white"
-            android:maxLines="1"
-
-
             android:hint="@string/hint_name"
             android:inputType="text"
+            android:maxLines="1"
+            android:padding="10dp"
+
+
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
 
             />
 
@@ -75,20 +48,21 @@
             android:id="@+id/hint_txt_email"
             android:layout_width="250dp"
             android:layout_height="50dp"
-
+            android:backgroundTint="@color/blue_type01"
             android:layout_marginTop="20dp"
 
+            android:autofillHints="E-Mail"
+
             android:background="@drawable/edit_text_background"
-
-            android:padding="10dp"
-            android:textColorHint="@color/blue_type05"
             android:fontFamily="@font/roboto_medium"
-            android:autofillHints="null"
-            android:textColor="@color/white"
-            android:lines="1"
-
             android:hint="@string/hint_email"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="10dp"
+
+
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
 
             />
 
@@ -97,12 +71,12 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
 
-            android:background="@drawable/btn_background"
-
             android:layout_marginTop="50dp"
 
+            android:background="#081F31"
+
             android:text="@string/txt_entrar"
-            android:textColor="@color/blue_type01"
+            android:textColor="@color/white"
 
             />
 
@@ -110,19 +84,26 @@
             android:id="@+id/btn_criar_conta_login"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-
-            android:background="@drawable/btn_background"
-
             android:layout_marginTop="20dp"
+            android:background="#081F31"
 
             android:text="@string/btn_txt_criar_conta"
-            android:textColor="@color/blue_type01"
+            android:textColor="@color/white"
 
             />
 
 
-
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="255dp"
+        android:layout_height="247dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/_b2d945b6_b833_4886_8692_0c08a24e8c35_removebg_preview" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
