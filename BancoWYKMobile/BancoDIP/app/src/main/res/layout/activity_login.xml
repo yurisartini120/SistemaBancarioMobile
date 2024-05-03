@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_type01"
+    tools:context=".view.LoginActivity">
+
+    <TextView
+        android:id="@+id/txt_login_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="100dp"
+
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_medium"
+        android:textAllCaps="true"
+        android:textSize="50sp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:orientation="vertical"
+        android:layout_width="350dp"
+        android:layout_height="450dp"
+        android:gravity="center"
+
+        app:layout_constraintTop_toBottomOf="@id/txt_login_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/txt_dados"
+            android:textColor="@color/white"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="30sp"
+
+            />
+
+        <EditText
+            android:id="@+id/hint_txt_nome_login"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+
+            android:layout_marginTop="20dp"
+
+            android:background="@drawable/edit_text_background"
+
+            android:padding="10dp"
+            android:textColorHint="@color/blue_type05"
+            android:fontFamily="@font/roboto_medium"
+            android:autofillHints="name"
+            android:textColor="@color/white"
+            android:maxLines="1"
+
+
+            android:hint="@string/hint_name"
+            android:inputType="text"
+
+            />
+
+        <EditText
+            android:id="@+id/hint_txt_email"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+
+            android:layout_marginTop="20dp"
+
+            android:background="@drawable/edit_text_background"
+
+            android:padding="10dp"
+            android:textColorHint="@color/blue_type05"
+            android:fontFamily="@font/roboto_medium"
+            android:autofillHints="null"
+            android:textColor="@color/white"
+            android:lines="1"
+
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_entrar_conta"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/btn_background"
+
+            android:layout_marginTop="50dp"
+
+            android:text="@string/txt_entrar"
+            android:textColor="@color/blue_type01"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_criar_conta_login"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/btn_background"
+
+            android:layout_marginTop="20dp"
+
+            android:text="@string/btn_txt_criar_conta"
+            android:textColor="@color/blue_type01"
+
+            />
+
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
