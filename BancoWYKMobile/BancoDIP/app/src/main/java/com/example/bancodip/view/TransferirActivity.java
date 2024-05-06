@@ -56,8 +56,8 @@ public class TransferirActivity extends AppCompatActivity {
                     binding.transUserEmail.setText("");
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("BANCO DIP");
-                    builder.setMessage("Sucesso");
+                    builder.setTitle("BANCO WYK");
+                    builder.setMessage("Transferência executada com sucesso");
                     builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -71,7 +71,7 @@ public class TransferirActivity extends AppCompatActivity {
                 }
             }else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("BANCO DIP");
+                builder.setTitle("Banco WYK");
                 builder.setMessage("Saldo insuficiente ou email invalido");
                 builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
