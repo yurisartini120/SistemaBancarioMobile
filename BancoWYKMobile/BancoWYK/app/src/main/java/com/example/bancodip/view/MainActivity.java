@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if(novoSaldo >= 0 && cheque < CHEQUEESPECIAL){
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle("BANCO WYK");
-                        builder.setMessage("seu cheque especial foi pago com sucesso!");
+                        builder.setMessage("Você pagou o seu cheque especial com êxito!");
                         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -138,8 +137,7 @@ public class MainActivity extends AppCompatActivity {
                         binding.chequeEspecialConta.setText(String.valueOf(novoCheque));
                     } else if (saldo <= -CHEQUEESPECIAL) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle("BANCO WYK");
-                        builder.setMessage("Sem cheque especial");
+                        builder.setMessage("Você não tem valor disponível no seu cheque especial");
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -157,8 +155,7 @@ public class MainActivity extends AppCompatActivity {
                         binding.chequeEspecialConta.setText(String.valueOf(0.00));
                     } else{
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle("BANCO WYK");
-                        builder.setMessage("Saldo insuficiente");
+                        builder.setMessage("Você não tem saldo para isso!");
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
