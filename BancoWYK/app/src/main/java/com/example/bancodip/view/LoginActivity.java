@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.bancodip.R;
 import com.example.bancodip.controller.ControllerBancoDados;
 import com.example.bancodip.databinding.ActivityLoginBinding;
 
@@ -14,7 +13,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
     private ControllerBancoDados controllerBancoDados;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,30 +35,21 @@ public class LoginActivity extends AppCompatActivity {
             String nome = binding.hintTxtNomeLogin.getText().toString().trim().toUpperCase();
             String email = binding.hintTxtEmail.getText().toString().trim().toUpperCase();
 
-
             if (controllerBancoDados.isNomeInDatabase(nome) && controllerBancoDados.isEmailInDatabase(email)){
 
                 try {
                     intentMain.putExtra("nome", nome);
                     intentMain.putExtra("email", email);
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    controllerBancoDados.close();
                     startActivity(intentMain);
                     finish();
+                } catch (Exception e){
+                    e.printStackTrace();
+                } finally {
+                    controllerBancoDados.close();
                 }
-
-
-
-            }else {
-                Toast.makeText(getApplicationContext(), "Erro", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Nome ou email inválido", Toast.LENGTH_LONG).show();
             }
-
         });
-
-
-
     }
 }

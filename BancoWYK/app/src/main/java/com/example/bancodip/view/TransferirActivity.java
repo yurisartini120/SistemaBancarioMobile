@@ -1,16 +1,11 @@
 package com.example.bancodip.view;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.widget.Toast;
 
-import com.example.bancodip.R;
 import com.example.bancodip.controller.ControllerBancoDados;
 import com.example.bancodip.databinding.ActivityTransferirBinding;
 
@@ -35,7 +30,7 @@ public class TransferirActivity extends AppCompatActivity {
 
         binding.btnTransferirUser.setOnClickListener(v -> {
 
-            String destinatarioEmail = binding.transUserEmail.getText().toString().toUpperCase();
+            String destinatarioEmail = binding.transUserEmail.getText().toString();
             Double destinatarioSaldo = controllerBancoDados.getSaldoByTitular(destinatarioEmail);
             String valorUser = binding.transUserValor.getText().toString();
 
@@ -48,52 +43,22 @@ public class TransferirActivity extends AppCompatActivity {
                     controllerBancoDados.updateSaldo(destinatarioEmail, saldoDestinatarioNew);
                     controllerBancoDados.updateSaldo(emailUser, saldoUserNew);
 
+                    Toast.makeText(getApplicationContext(),"Transferência executada com sucesso", Toast.LENGTH_SHORT).show();
+
                 } catch (Exception e){
                     e.printStackTrace();
                 } finally {
                     controllerBancoDados.close();
                     binding.transUserValor.setText("");
                     binding.transUserEmail.setText("");
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("BANCO WYK");
-                    builder.setMessage("Transferência executada com sucesso");
-                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Nada aqui
-                        }
-                    });
-
-                    AlertDialog alerta = builder.create();
-                    alerta.show();
-
                 }
-            }else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Banco WYK");
-                builder.setMessage("Saldo insuficiente ou email invalido");
-                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // nada aqui
-                    }
-                });
-
-                AlertDialog alerta = builder.create();
-                alerta.show();
+            } else {
+                Toast.makeText(getApplicationContext(),"Saldo insuficiente ou email inválido", Toast.LENGTH_SHORT).show();
             }
-
-
         });
 
         binding.btnVoltar.setOnClickListener(v -> {
             finish();
-
         });
-
     }
-
-
-
 }

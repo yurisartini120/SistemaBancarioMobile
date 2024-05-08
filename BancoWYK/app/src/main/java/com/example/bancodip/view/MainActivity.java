@@ -1,26 +1,19 @@
 package com.example.bancodip.view;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.bancodip.R;
 import com.example.bancodip.controller.ControllerBancoDados;
-import com.example.bancodip.controller.Util;
 import com.example.bancodip.databinding.ActivityMainBinding;
-import com.example.bancodip.model.ModelBancoDados;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private ControllerBancoDados controllerBancoDados;
-    private Util util;
-    private static final int REQUEST_TRANSFERIR = 123;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +21,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         controllerBancoDados = new ControllerBancoDados(this);
-        util = new Util();
 
         Intent intentTrans = new Intent(MainActivity.this, TransferirActivity.class);
         Intent intent = getIntent();
 
-        String nome = intent.getStringExtra("nome");
         String email = intent.getStringExtra("email");
 
         intentTrans.putExtra("email_trans", email);
@@ -55,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
             controllerBancoDados.close();
         }
 
-
-
         binding.btnDepositar.setOnClickListener(v -> {
             controllerBancoDados.open();
 
@@ -64,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
             if(!valorCliente.isEmpty()){
                 try {
-
                     Double cheque = controllerBancoDados.getChequeByTitular(email);
                     Double valorSaldo = controllerBancoDados.getSaldoByTitular(email);
                     Double CHEQUEESPECIAL = controllerBancoDados.getChequeDEFIByTitular(email);
@@ -75,27 +63,15 @@ public class MainActivity extends AppCompatActivity {
                     controllerBancoDados.updateSaldo(email, novoSaldo);
                     binding.saldoConta.setText(String.valueOf(novoSaldo));
 
-
                     if(valorSaldo < 0 ){
                         controllerBancoDados.updateCheque(email, novoCheque);
                         binding.chequeEspecialConta.setText(String.valueOf(novoCheque));
                     }
+
                     if(novoSaldo >= 0 && cheque < CHEQUEESPECIAL){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("Você pagou o seu cheque especial com êxito!");
-                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // nada aqui
-                            }
-                        });
-
-                        AlertDialog alerta = builder.create();
-                        alerta.show();
-
+                        Toast.makeText(getApplicationContext(),"Você pagou o seu cheque especial com êxito!", Toast.LENGTH_SHORT).show();
                         controllerBancoDados.updateCheque(email, CHEQUEESPECIAL);
                         binding.chequeEspecialConta.setText(String.valueOf(CHEQUEESPECIAL));
-
                     }
 
                 }catch (Exception e){
@@ -105,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                     binding.hintUserValor.setText("");
                 }
             }
-
         });
 
         binding.btnSacar.setOnClickListener(v -> {
@@ -136,38 +111,15 @@ public class MainActivity extends AppCompatActivity {
                         controllerBancoDados.updateCheque(email, novoCheque);
                         binding.chequeEspecialConta.setText(String.valueOf(novoCheque));
                     } else if (saldo <= -CHEQUEESPECIAL) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("Você não tem valor disponível no seu cheque especial");
-                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Nada aqui
-                            }
-                        });
-
-                        AlertDialog alerta = builder.create();
-                        alerta.show();
-
+                        Toast.makeText(getApplicationContext(),"Você não tem valor disponível", Toast.LENGTH_SHORT).show();
                         controllerBancoDados.updateSaldo(email, -CHEQUEESPECIAL);
                         binding.saldoConta.setText(String.valueOf(-CHEQUEESPECIAL));
 
                         controllerBancoDados.updateCheque(email, 0);
                         binding.chequeEspecialConta.setText(String.valueOf(0.00));
-                    } else{
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("Você não tem saldo para isso!");
-                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Nada aqui
-                            }
-                        });
-
-                        AlertDialog alerta = builder.create();
-                        alerta.show();
+                    } else {
+                        Toast.makeText(getApplicationContext(),"Você não tem saldo para isso!", Toast.LENGTH_SHORT).show();
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -177,13 +129,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         binding.btnTransferir.setOnClickListener(v -> {
             startActivity(intentTrans);
         });
-
     }
 
     @Override
@@ -197,9 +145,5 @@ public class MainActivity extends AppCompatActivity {
         Double saldo = controllerBancoDados.getSaldoByTitular(email);
 
         binding.saldoConta.setText(String.valueOf(saldo));
-
     }
-
-
-
 }

@@ -6,12 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.bancodip.R;
 import com.example.bancodip.controller.ControllerBancoDados;
 import com.example.bancodip.controller.Util;
 import com.example.bancodip.databinding.ActivityRegisterBinding;
-
-import java.util.Locale;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -32,8 +29,8 @@ public class RegisterActivity extends AppCompatActivity {
         binding.btnCriarConta.setOnClickListener(v -> {
             controllerBancoDados.open();
 
-            String  nome = binding.hintTxtRegisterNome.getText().toString().toUpperCase().trim();
-            String email = binding.hintTxtRegisterEmail.getText().toString().toUpperCase().trim();
+            String  nome = binding.hintTxtRegisterNome.getText().toString().trim();
+            String email = binding.hintTxtRegisterEmail.getText().toString().trim();
             String saldo = binding.hintTxtRegisterSaldo.getText().toString().trim();
 
             if(!nome.isEmpty() && !email.isEmpty() && !saldo.isEmpty() && util.isValidEmail(email) && !controllerBancoDados.isEmailInDatabase(email) ){
@@ -48,6 +45,8 @@ public class RegisterActivity extends AppCompatActivity {
                     intent.putExtra("saldo", saldoDouble);
                     intent.putExtra("cheque", chequeEspecial);
 
+                    Toast.makeText(getApplicationContext(), "Conta criada com sucesso", Toast.LENGTH_SHORT).show();
+
                 }catch (Exception e){
                     e.printStackTrace();
                 } finally {
@@ -57,17 +56,8 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
             } else {
-                Toast.makeText(getApplicationContext(), "Erro", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Preencha corretamente todos os campos", Toast.LENGTH_LONG).show();
             }
-
-
-
-
-
         });
-
-
-
-
     }
 }
