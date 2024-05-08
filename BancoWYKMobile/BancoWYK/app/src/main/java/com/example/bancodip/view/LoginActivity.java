@@ -15,52 +15,39 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private ControllerBancoDados controllerBancoDados;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        controllerBancoDados = new ControllerBancoDados(this);
+
         Intent intentRegister = new Intent(LoginActivity.this, RegisterActivity.class);
         Intent intentMain = new Intent(LoginActivity.this, MainActivity.class);
-
-        controllerBancoDados = new ControllerBancoDados(this);
 
         binding.btnCriarContaLogin.setOnClickListener(v -> {
             startActivity(intentRegister);
         });
 
+        // Dentro do método onCreate da LoginActivity
+
         binding.btnEntrarConta.setOnClickListener(v -> {
             controllerBancoDados.open();
 
-            String nome = binding.hintTxtNomeLogin.getText().toString().trim().toUpperCase();
-            String email = binding.hintTxtEmail.getText().toString().trim().toUpperCase();
+            String numeroConta = binding.hintTxtNumeroConta.getText().toString().trim();
 
+            if (controllerBancoDados.isNumeroContaInDatabase(numeroConta)) {
+                String nome = controllerBancoDados.getNomeByNumeroConta(numeroConta);
+                String email = controllerBancoDados.getEmailByNumeroConta(numeroConta);
 
-            if (controllerBancoDados.isNomeInDatabase(nome) && controllerBancoDados.isEmailInDatabase(email)){
-
-                try {
-                    intentMain.putExtra("nome", nome);
-                    intentMain.putExtra("email", email);
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }finally {
-                    controllerBancoDados.close();
-                    startActivity(intentMain);
-                    finish();
-                }
-
-
-
-            }else {
-                Toast.makeText(getApplicationContext(), "Erro", Toast.LENGTH_LONG).show();
+                // Faça algo com o nome e o email obtidos, como iniciar a MainActivity
+            } else {
+                Toast.makeText(getApplicationContext(), "Número de conta inválido", Toast.LENGTH_SHORT).show();
             }
 
+            controllerBancoDados.close();
         });
-
-
 
     }
 }

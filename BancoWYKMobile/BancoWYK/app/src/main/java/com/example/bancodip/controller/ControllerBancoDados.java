@@ -169,5 +169,16 @@ public class ControllerBancoDados {
         }
         return false;
     }
+    public boolean isNumeroContaInDatabase(String numeroConta) {
+        return dbHelper.isNumeroContaInDatabase(numeroConta);
+    }
+
+    public String getNomeByNumeroConta(String numeroConta) {
+        return dbHelper.getNomeByNumeroConta(numeroConta);
+    }
+
+    public String getEmailByNumeroConta(String numeroConta) {
+        return dbHelper.getEmailByNumeroConta(numeroConta);
+    }
 
 }

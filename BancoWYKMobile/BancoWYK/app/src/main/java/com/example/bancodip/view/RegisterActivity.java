@@ -11,8 +11,6 @@ import com.example.bancodip.controller.ControllerBancoDados;
 import com.example.bancodip.controller.Util;
 import com.example.bancodip.databinding.ActivityRegisterBinding;
 
-import java.util.Locale;
-
 public class RegisterActivity extends AppCompatActivity {
 
     private ActivityRegisterBinding binding;
@@ -42,7 +40,8 @@ public class RegisterActivity extends AppCompatActivity {
                 double chequeEspecial = saldoDouble * 4;
 
                 try {
-                    controllerBancoDados.insertData(nome, email, saldoDouble, chequeEspecial, chequeEspecial);
+                    long id = controllerBancoDados.insertData(nome, email, saldoDouble, chequeEspecial, chequeEspecial);
+                    Toast.makeText(getApplicationContext(), "Cadastrado com sucesso, o número da sua conta é: " + id, Toast.LENGTH_LONG).show();
                     intent.putExtra("nome", nome);
                     intent.putExtra("email", email);
                     intent.putExtra("saldo", saldoDouble);
@@ -60,14 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Erro", Toast.LENGTH_LONG).show();
             }
 
-
-
-
-
         });
-
-
-
 
     }
 }
