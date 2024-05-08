@@ -126,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
 
                     Double novoSaldoMais = saldo + valorSaque;
 
-                    
-
                     if (saldo > 0 && novoSaldo >= 0) {
                         controllerBancoDados.updateSaldo(email, novoSaldo);
                         binding.saldoConta.setText(String.valueOf(novoSaldo));
