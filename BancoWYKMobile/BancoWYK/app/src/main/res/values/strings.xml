@@ -18,6 +18,9 @@
     <string name="txt_sacar">sacar</string>
     <string name="descricao_da_imagem_do_banco">image logo banco</string>
     <string name="txt_cheque_especial">Cheque especial</string>
+    <string name="hintTxtNumeroConta">Número da Conta</string>
+
+
 
 
 </resources>
