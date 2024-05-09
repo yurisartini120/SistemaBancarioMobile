@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".view.TransferirActivity">
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="201dp"
+        android:layout_height="188dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/_b2d945b6_b833_4886_8692_0c08a24e8c35_removebg_preview" />
+
+    <EditText
+        android:id="@+id/trans_user_email"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/blue_type01"
+        android:layout_marginBottom="20dp"
+
+        android:background="@drawable/edit_text_background"
+
+        android:fontFamily="@font/roboto_medium"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+
+        />
+
+    <EditText
+        android:id="@+id/trans_user_valor"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/blue_type01"
+        android:layout_marginBottom="20dp"
+
+        android:background="@drawable/edit_text_background"
+
+        android:fontFamily="@font/roboto_medium"
+        android:hint="@string/hint_txt_inserir_valor"
+        android:inputType="number|numberDecimal"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_Transferir_user"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="20dp"
+
+        android:background="#081F31"
+
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/txt_transferir"
+
+
+        android:textColor="#FFFFFF" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_voltar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+
+        android:background="#081F31"
+
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/btn_txt_voltar"
+
+
+        android:textColor="#FFFFFF" />
+
+
+</LinearLayout>
