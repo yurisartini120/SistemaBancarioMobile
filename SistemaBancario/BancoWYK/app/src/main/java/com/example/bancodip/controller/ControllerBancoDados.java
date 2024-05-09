@@ -170,4 +170,27 @@ public class ControllerBancoDados {
         return false;
     }
 
+    @SuppressLint("Range")
+    public int getIdByNome(String nome) {
+        int id = -1;
+        try (Cursor cursor = database.query(
+                ModelBancoDados.NOME_TABELA,
+                new String[]{ModelBancoDados.COLUNA_ID},
+                ModelBancoDados.COLUNA_TITULAR + " = ?",
+                new String[]{nome},
+                null, null, null)) {
+
+
+            if (cursor != null && cursor.moveToFirst()) {
+                id = cursor.getInt(cursor.getColumnIndex(ModelBancoDados.COLUNA_ID));
+            }
+        } catch (Exception e) {
+            Log.e("GET_ID_BY_NOME", "Erro ao obter ID pelo nome: " + e.getMessage());
+        }
+        return id;
+    }
+
+
+
+
 }

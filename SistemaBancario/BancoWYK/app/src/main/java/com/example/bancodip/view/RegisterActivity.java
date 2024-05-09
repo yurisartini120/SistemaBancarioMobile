@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.bancodip.controller.ControllerBancoDados;
@@ -46,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
                     intent.putExtra("cheque", chequeEspecial);
 
                     Toast.makeText(getApplicationContext(), "Conta criada com sucesso", Toast.LENGTH_SHORT).show();
+                    Log.e("Confirmação registro", ("as informações foram adicionadas com sucesso! elas são: " + nome + email + saldoDouble + chequeEspecial )  );
 
                 }catch (Exception e){
                     e.printStackTrace();

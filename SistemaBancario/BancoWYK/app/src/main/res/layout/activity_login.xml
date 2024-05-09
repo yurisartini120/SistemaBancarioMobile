@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.15">
 
         <EditText
-            android:id="@+id/hint_txt_nome_login"
+            android:id="@+id/hintTxtNomeLogin"
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:backgroundTint="@color/blue_type01"
@@ -45,17 +45,17 @@
             />
 
         <EditText
-            android:id="@+id/hint_txt_email"
+            android:id="@+id/hintTxtId"
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:backgroundTint="@color/blue_type01"
             android:layout_marginTop="20dp"
 
-            android:autofillHints="E-Mail"
+            android:autofillHints="Número da conta"
 
             android:background="@drawable/edit_text_background"
             android:fontFamily="@font/roboto_medium"
-            android:hint="@string/hint_email"
+            android:hint="@string/hint_id"
             android:inputType="text"
             android:maxLines="1"
             android:padding="10dp"

@@ -21,7 +21,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Intent intentRegister = new Intent(LoginActivity.this, RegisterActivity.class);
-        Intent intentMain = new Intent(LoginActivity.this, MainActivity.class);
 
         controllerBancoDados = new ControllerBancoDados(this);
 
@@ -32,24 +31,33 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnEntrarConta.setOnClickListener(v -> {
             controllerBancoDados.open();
 
-            String nome = binding.hintTxtNomeLogin.getText().toString().trim().toUpperCase();
-            String email = binding.hintTxtEmail.getText().toString().trim().toUpperCase();
+            String nome = binding.hintTxtNomeLogin.getText().toString().trim();
+            String idString = binding.hintTxtId.getText().toString().trim();
 
-            if (controllerBancoDados.isNomeInDatabase(nome) && controllerBancoDados.isEmailInDatabase(email)){
 
-                try {
+            if (nome.isEmpty() || idString.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Por favor, insira o nome e o ID", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            try {
+                int id = Integer.parseInt(idString);
+
+                if (controllerBancoDados.isNomeInDatabase(nome) && controllerBancoDados.getIdByNome(nome) == id) {
+                    Intent intentMain = new Intent(LoginActivity.this, MainActivity.class);
                     intentMain.putExtra("nome", nome);
-                    intentMain.putExtra("email", email);
+                    intentMain.putExtra("id", id);
                     startActivity(intentMain);
                     finish();
-                } catch (Exception e){
-                    e.printStackTrace();
-                } finally {
-                    controllerBancoDados.close();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Nome ou ID inválido", Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(getApplicationContext(), "Nome ou email inválido", Toast.LENGTH_LONG).show();
+            } catch (NumberFormatException e) {
+                Toast.makeText(getApplicationContext(), "ID inválido", Toast.LENGTH_LONG).show();
+            } finally {
+                controllerBancoDados.close();
             }
         });
+
     }
 }
