@@ -73,7 +73,7 @@
 
             android:layout_marginTop="50dp"
 
-            android:background="#081F31"
+            android:background="@drawable/botao_arredondar"
 
             android:text="@string/txt_entrar"
             android:textColor="@color/white"
@@ -85,7 +85,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="#081F31"
+            android:background="@drawable/botao_arredondar"
 
             android:text="@string/btn_txt_criar_conta"
             android:textColor="@color/white"
