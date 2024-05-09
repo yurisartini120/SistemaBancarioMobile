@@ -62,8 +62,7 @@
 
         android:layout_marginBottom="20dp"
 
-        android:background="#081F31"
-
+        android:background="@drawable/rounded_button"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/txt_transferir"
 
@@ -75,7 +74,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
 
-        android:background="#081F31"
+        android:background="@drawable/rounded_button"
 
         android:fontFamily="@font/roboto_medium"
         android:text="@string/btn_txt_voltar"

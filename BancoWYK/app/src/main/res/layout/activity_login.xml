@@ -45,26 +45,23 @@
             />
 
         <EditText
-            android:id="@+id/hint_txt_email"
+            android:id="@+id/hint_txt_id"
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:backgroundTint="@color/blue_type01"
             android:layout_marginTop="20dp"
 
-            android:autofillHints="E-Mail"
+            android:autofillHints="ID"
 
             android:background="@drawable/edit_text_background"
             android:fontFamily="@font/roboto_medium"
-            android:hint="@string/hint_email"
-            android:inputType="text"
+            android:hint="@string/numeroConta"
+            android:inputType="number"
             android:maxLines="1"
             android:padding="10dp"
 
-
             android:textColor="@color/black"
-            android:textColorHint="@color/black"
-
-            />
+            android:textColorHint="@color/black" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_entrar_conta"
@@ -73,7 +70,7 @@
 
             android:layout_marginTop="50dp"
 
-            android:background="#081F31"
+            android:background="@drawable/rounded_button"
 
             android:text="@string/txt_entrar"
             android:textColor="@color/white"
@@ -85,7 +82,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="#081F31"
+            android:background="@drawable/rounded_button"
 
             android:text="@string/btn_txt_criar_conta"
             android:textColor="@color/white"

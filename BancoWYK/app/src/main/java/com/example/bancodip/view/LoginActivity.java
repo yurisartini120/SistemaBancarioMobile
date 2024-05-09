@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
         controllerBancoDados = new ControllerBancoDados(this);
 
-        binding.btnCriarContaLogin.setOnClickListener(v -> {
+        binding.btnCriarContaLogin.setOnClickListener(v ->{
             startActivity(intentRegister);
         });
 
@@ -33,16 +33,17 @@ public class LoginActivity extends AppCompatActivity {
             controllerBancoDados.open();
 
             String nome = binding.hintTxtNomeLogin.getText().toString().trim().toUpperCase();
-            String email = binding.hintTxtEmail.getText().toString().trim().toUpperCase();
+            String email = binding.hintTxtId.getText().toString().trim().toUpperCase();
 
-            if (controllerBancoDados.isNomeInDatabase(nome) && controllerBancoDados.isEmailInDatabase(email)){
-
+            long id = controllerBancoDados.getIdByNameAndEmail(nome, email);
+            if (id != -1) {
                 try {
                     intentMain.putExtra("nome", nome);
                     intentMain.putExtra("email", email);
+                    intentMain.putExtra("id", id);
                     startActivity(intentMain);
                     finish();
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
                     controllerBancoDados.close();

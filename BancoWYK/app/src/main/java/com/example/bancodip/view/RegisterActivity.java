@@ -1,11 +1,14 @@
 package com.example.bancodip.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.bancodip.R;
 import com.example.bancodip.controller.ControllerBancoDados;
 import com.example.bancodip.controller.Util;
 import com.example.bancodip.databinding.ActivityRegisterBinding;
@@ -24,35 +27,33 @@ public class RegisterActivity extends AppCompatActivity {
 
         controllerBancoDados = new ControllerBancoDados(this);
         util = new Util();
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
 
         binding.btnCriarConta.setOnClickListener(v -> {
             controllerBancoDados.open();
 
             String  nome = binding.hintTxtRegisterNome.getText().toString().trim();
-            String email = binding.hintTxtRegisterEmail.getText().toString().trim();
+            String Email = binding.hintTxtRegisterEmail.getText().toString().trim();
             String saldo = binding.hintTxtRegisterSaldo.getText().toString().trim();
 
-            if(!nome.isEmpty() && !email.isEmpty() && !saldo.isEmpty() && util.isValidEmail(email) && !controllerBancoDados.isEmailInDatabase(email) ){
+            if(!nome.isEmpty() && !Email.isEmpty() && !saldo.isEmpty() && util.isValidEmail(Email)){
 
                 double saldoDouble = Double.parseDouble(saldo);
                 double chequeEspecial = saldoDouble * 4;
 
                 try {
-                    controllerBancoDados.insertData(nome, email, saldoDouble, chequeEspecial, chequeEspecial);
+                    long idLong = controllerBancoDados.insertData(Email, nome, saldoDouble, chequeEspecial, chequeEspecial);
+                    Toast.makeText(getApplicationContext(), "Conta criada com sucesso! O número da conta é: " + idLong, Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    intent.putExtra("Email", Email);
                     intent.putExtra("nome", nome);
-                    intent.putExtra("email", email);
                     intent.putExtra("saldo", saldoDouble);
-                    intent.putExtra("cheque", chequeEspecial);
-
-                    Toast.makeText(getApplicationContext(), "Conta criada com sucesso", Toast.LENGTH_SHORT).show();
-
+                    startActivity(intent);
+                    finish();
                 }catch (Exception e){
                     e.printStackTrace();
                 } finally {
                     controllerBancoDados.close();
-                    startActivity(intent);
-                    finish();
                 }
 
             } else {
