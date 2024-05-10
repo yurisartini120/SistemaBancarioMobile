@@ -1,12 +1,9 @@
 package com.example.bancodip.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import com.example.bancodip.controller.ControllerBancoDados;
 import com.example.bancodip.databinding.ActivityMainBinding;
 
@@ -14,6 +11,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private ControllerBancoDados controllerBancoDados;
+    private String nome; // Adicione esta linha para armazenar o nome do usuário
+    private int id; // Adicione esta linha para armazenar o ID do usuário
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,112 +21,22 @@ public class MainActivity extends AppCompatActivity {
 
         controllerBancoDados = new ControllerBancoDados(this);
 
-        Intent intentTrans = new Intent(MainActivity.this, TransferirActivity.class);
         Intent intent = getIntent();
+        nome = intent.getStringExtra("nome"); // Recupere o nome do usuário do intent
+        id = intent.getIntExtra("id", -1); // Recupere o ID do usuário do intent
 
-        String email = intent.getStringExtra("email");
-
-        intentTrans.putExtra("email_trans", email);
-
-        try {
-            controllerBancoDados.open();
-
-            Double saldoBanco = controllerBancoDados.getSaldoByTitular(email);
-            Double chequeBanco = controllerBancoDados.getChequeByTitular(email);
-            String saldoString = String.valueOf(saldoBanco);
-            String chequeString = String.valueOf(chequeBanco);
-
-            binding.saldoConta.setText("R$ " + saldoString);
-            binding.chequeEspecialConta.setText(chequeString);
-
-        } catch (Exception e){
-            e.printStackTrace();
-        } finally {
-            controllerBancoDados.close();
+        // Verifique se o nome e o ID foram passados corretamente
+        if (nome == null || id == -1) {
+            Toast.makeText(getApplicationContext(), "Erro: Nome ou ID inválido", Toast.LENGTH_LONG).show();
+            finish(); // Encerre a atividade se os dados não estiverem corretos
         }
 
-        binding.btnDepositar.setOnClickListener(v -> {
-            controllerBancoDados.open();
+        // Continue com o restante do seu código aqui...
 
-            String valorCliente = binding.hintUserValor.getText().toString();
+        Intent intentTrans = new Intent(MainActivity.this, TransferirActivity.class);
+        intentTrans.putExtra("email_trans", nome); // Envie o nome do usuário para a atividade de transferência
 
-            if(!valorCliente.isEmpty()){
-                try {
-                    Double cheque = controllerBancoDados.getChequeByTitular(email);
-                    Double valorSaldo = controllerBancoDados.getSaldoByTitular(email);
-                    Double CHEQUEESPECIAL = controllerBancoDados.getChequeDEFIByTitular(email);
-
-                    Double novoSaldo = Double.parseDouble(valorCliente) + valorSaldo ;
-                    Double novoCheque = cheque + Double.parseDouble(valorCliente);
-
-                    controllerBancoDados.updateSaldo(email, novoSaldo);
-                    binding.saldoConta.setText(String.valueOf(novoSaldo));
-
-                    if(valorSaldo < 0 ){
-                        controllerBancoDados.updateCheque(email, novoCheque);
-                        binding.chequeEspecialConta.setText(String.valueOf(novoCheque));
-                    }
-
-                    if(novoSaldo >= 0 && cheque < CHEQUEESPECIAL){
-                        Toast.makeText(getApplicationContext(),"Você pagou o seu cheque especial com êxito!", Toast.LENGTH_SHORT).show();
-                        controllerBancoDados.updateCheque(email, CHEQUEESPECIAL);
-                        binding.chequeEspecialConta.setText(String.valueOf(CHEQUEESPECIAL));
-                    }
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                } finally {
-                    controllerBancoDados.close();
-                    binding.hintUserValor.setText("");
-                }
-            }
-        });
-
-        binding.btnSacar.setOnClickListener(v -> {
-            controllerBancoDados.open();
-
-            String valorCliente = binding.hintUserValor.getText().toString();
-
-            if (!valorCliente.isEmpty()) {
-                try {
-                    Double saldo = controllerBancoDados.getSaldoByTitular(email);
-                    Double cheque = controllerBancoDados.getChequeByTitular(email);
-                    Double CHEQUEESPECIAL = controllerBancoDados.getChequeDEFIByTitular(email);
-
-                    Double valorSaque = Double.parseDouble(valorCliente);
-
-                    Double novoSaldo = saldo - valorSaque;
-                    Double novoCheque = cheque - valorSaque;
-
-                    Double novoSaldoMais = saldo + valorSaque;
-
-                    if (saldo > 0 && novoSaldo >= 0) {
-                        controllerBancoDados.updateSaldo(email, novoSaldo);
-                        binding.saldoConta.setText(String.valueOf(novoSaldo));
-                    } else if (saldo <= 0 && novoSaldo >= -CHEQUEESPECIAL) {
-                        controllerBancoDados.updateSaldo(email, novoSaldo);
-                        binding.saldoConta.setText(String.valueOf(novoSaldo));
-
-                        controllerBancoDados.updateCheque(email, novoCheque);
-                        binding.chequeEspecialConta.setText(String.valueOf(novoCheque));
-                    } else if (saldo <= -CHEQUEESPECIAL) {
-                        Toast.makeText(getApplicationContext(),"Você não tem valor disponível", Toast.LENGTH_SHORT).show();
-                        controllerBancoDados.updateSaldo(email, -CHEQUEESPECIAL);
-                        binding.saldoConta.setText(String.valueOf(-CHEQUEESPECIAL));
-
-                        controllerBancoDados.updateCheque(email, 0);
-                        binding.chequeEspecialConta.setText(String.valueOf(0.00));
-                    } else {
-                        Toast.makeText(getApplicationContext(),"Você não tem saldo para isso!", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    controllerBancoDados.close();
-                    binding.hintUserValor.setText("");
-                }
-            }
-        });
+        // Restante do seu código...
 
         binding.btnTransferir.setOnClickListener(v -> {
             startActivity(intentTrans);
@@ -139,11 +48,14 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         controllerBancoDados.open();
-        Intent intent = getIntent();
+        Double saldoBanco = controllerBancoDados.getSaldoByTitular(nome); // Use o nome do usuário para recuperar o saldo
+        Double chequeBanco = controllerBancoDados.getChequeByTitular(nome); // Use o nome do usuário para recuperar o cheque especial
+        Double chequeDefiBanco = controllerBancoDados.getChequeDEFIByTitular(nome); // Use o nome do usuário para recuperar o cheque especial definido
+        String saldoString = String.valueOf(saldoBanco);
+        String chequeString = String.valueOf(chequeBanco);
+        String chequeDefiString = String.valueOf(chequeDefiBanco);
 
-        String email = intent.getStringExtra("email");
-        Double saldo = controllerBancoDados.getSaldoByTitular(email);
-
-        binding.saldoConta.setText(String.valueOf(saldo));
+        binding.saldoConta.setText("R$ " + saldoString);
+        binding.chequeEspecialConta.setText(chequeString);
     }
 }

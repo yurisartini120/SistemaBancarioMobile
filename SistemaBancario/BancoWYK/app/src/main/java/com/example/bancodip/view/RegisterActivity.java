@@ -40,13 +40,13 @@ public class RegisterActivity extends AppCompatActivity {
                 double chequeEspecial = saldoDouble * 4;
 
                 try {
-                    controllerBancoDados.insertData(nome, email, saldoDouble, chequeEspecial, chequeEspecial);
+                    long id = controllerBancoDados.insertData(nome, email, saldoDouble, chequeEspecial, chequeEspecial);
                     intent.putExtra("nome", nome);
                     intent.putExtra("email", email);
                     intent.putExtra("saldo", saldoDouble);
                     intent.putExtra("cheque", chequeEspecial);
 
-                    Toast.makeText(getApplicationContext(), "Conta criada com sucesso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Conta criada com sucesso. Seu ID é: " + id, Toast.LENGTH_SHORT).show();
                     Log.e("Confirmação registro", ("as informações foram adicionadas com sucesso! elas são: " + nome + email + saldoDouble + chequeEspecial )  );
 
                 }catch (Exception e){

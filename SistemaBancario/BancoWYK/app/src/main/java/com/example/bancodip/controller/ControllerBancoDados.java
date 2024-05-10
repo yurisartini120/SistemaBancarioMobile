@@ -189,8 +189,4 @@ public class ControllerBancoDados {
         }
         return id;
     }
-
-
-
-
 }
