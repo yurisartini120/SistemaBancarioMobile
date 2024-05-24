@@ -3,28 +3,20 @@ package com.example.bancodip.view;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.backup.BackupManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.widget.Toast;
 
 import com.example.bancodip.R;
 import com.example.bancodip.controller.ControllerBancoDados;
 import com.example.bancodip.databinding.ActivityMainBinding;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private ControllerBancoDados controllerBancoDados;
     private static final int REQUEST_TRANSFERIR = 123;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,10 +151,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
