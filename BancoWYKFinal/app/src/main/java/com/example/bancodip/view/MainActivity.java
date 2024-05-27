@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.example.bancodip.R;
 import com.example.bancodip.controller.ControllerBancoDados;
 import com.example.bancodip.databinding.ActivityMainBinding;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 

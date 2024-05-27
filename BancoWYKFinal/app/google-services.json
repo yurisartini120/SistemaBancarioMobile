@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "258416889029",
+    "firebase_url": "https://wykbank-5b21d-default-rtdb.firebaseio.com",
+    "project_id": "wykbank-5b21d",
+    "storage_bucket": "wykbank-5b21d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258416889029:android:dc1e8590028b1e4e6174ac",
+        "android_client_info": {
+          "package_name": "com.example.bancodip"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRbXFXhpNB1m-Vh1v3pfv_Usvjo5USpFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

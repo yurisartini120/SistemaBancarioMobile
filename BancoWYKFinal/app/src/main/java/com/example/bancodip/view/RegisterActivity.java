@@ -10,6 +10,8 @@ import com.example.bancodip.R;
 import com.example.bancodip.controller.ControllerBancoDados;
 import com.example.bancodip.controller.Util;
 import com.example.bancodip.databinding.ActivityRegisterBinding;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Locale;
 
@@ -19,11 +21,14 @@ public class RegisterActivity extends AppCompatActivity {
     private ControllerBancoDados controllerBancoDados;
     private Util util;
 
+    private DatabaseReference referencia = FirebaseDatabase.getInstance().getReference();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         controllerBancoDados = new ControllerBancoDados(this);
         util = new Util();
@@ -35,6 +40,21 @@ public class RegisterActivity extends AppCompatActivity {
             String  nome = binding.hintTxtRegisterNome.getText().toString().trim();
             String email = binding.hintTxtRegisterEmail.getText().toString().trim();
             String saldo = binding.hintTxtRegisterSaldo.getText().toString().trim();
+
+            int ativo = 1;
+            float saldoreal = Float.parseFloat(saldo);
+
+            float cheque_especial = saldoreal*4;
+
+            int conta = 6;
+
+            String emailreal = email;
+
+            int idade = 49;
+
+            String nomereal = nome;
+
+            int tipo = 1;
 
             if(!nome.isEmpty() && !email.isEmpty() && !saldo.isEmpty() && util.isValidEmail(email) && !controllerBancoDados.isEmailInDatabase(email) ){
 
