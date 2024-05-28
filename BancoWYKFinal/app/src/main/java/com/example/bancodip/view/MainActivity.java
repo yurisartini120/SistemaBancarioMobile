@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         controllerBancoDados = new ControllerBancoDados(this);
 
+        controllerBancoDados.open();
         Intent intentTrans = new Intent(MainActivity.this, TransferirActivity.class);
         Intent intent = getIntent();
 
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 }catch (Exception e){
                     e.printStackTrace();
                 } finally {
-                    controllerBancoDados.close();
+
                     binding.hintUserValor.setText("");
                 }
             }
