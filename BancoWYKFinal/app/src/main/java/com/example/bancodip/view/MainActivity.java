@@ -11,14 +11,21 @@ import android.widget.Toast;
 import com.example.bancodip.R;
 import com.example.bancodip.controller.ControllerBancoDados;
 import com.example.bancodip.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private ControllerBancoDados controllerBancoDados;
+    private DatabaseReference referencia;
     private static final int REQUEST_TRANSFERIR = 123;
+
+    private int numeroConta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,127 +33,114 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        controllerBancoDados = new ControllerBancoDados(this);
+        referencia = FirebaseDatabase.getInstance().getReference();
 
-        controllerBancoDados.open();
         Intent intentTrans = new Intent(MainActivity.this, TransferirActivity.class);
         Intent intent = getIntent();
 
-        String nome = intent.getStringExtra("nome");
-        String email = intent.getStringExtra("email");
+        numeroConta = intent.getIntExtra("numeroConta", 0);
+        intentTrans.putExtra("numeroConta_trans", numeroConta);
 
-        intentTrans.putExtra("email_trans", email);
+        referencia.child("correntistas").child(String.valueOf(numeroConta)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Recuperar os dados de saldo e cheque especial do Firebase
+                    Double saldo = dataSnapshot.child("saldo").getValue(Double.class);
+                    Double chequeEspecial = dataSnapshot.child("cheque_especial").getValue(Double.class);
 
-        try {
-            controllerBancoDados.open();
-
-            Double saldoBanco = controllerBancoDados.getSaldoByTitular(email);
-            Double chequeBanco = controllerBancoDados.getChequeByTitular(email);
-            String saldoString = String.valueOf(saldoBanco);
-            String chequeString = String.valueOf(chequeBanco);
-
-            binding.saldoConta.setText("R$ " + saldoString);
-            binding.chequeEspecialConta.setText(chequeString);
-
-        } catch (Exception e){
-            e.printStackTrace();
-        } finally {
-        }
-
-        binding.btnDepositar.setOnClickListener(v -> {
-            controllerBancoDados.open();
-
-            String valorCliente = binding.hintUserValor.getText().toString();
-
-            if(!valorCliente.isEmpty()){
-                try {
-
-                    Double cheque = controllerBancoDados.getChequeByTitular(email);
-                    Double valorSaldo = controllerBancoDados.getSaldoByTitular(email);
-                    Double CHEQUEESPECIAL = controllerBancoDados.getChequeDEFIByTitular(email);
-
-                    Double novoSaldo = Double.parseDouble(valorCliente) + valorSaldo ;
-                    Double novoCheque = cheque + Double.parseDouble(valorCliente);
-
-                    controllerBancoDados.updateSaldo(email, novoSaldo);
-                    binding.saldoConta.setText(String.valueOf(novoSaldo));
-
-                    if(valorSaldo < 0 ){
-                        controllerBancoDados.updateCheque(email, novoCheque);
-                        binding.chequeEspecialConta.setText(String.valueOf(novoCheque));
-                    }
-                    if(novoSaldo >= 0 && cheque < CHEQUEESPECIAL){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("Você pagou o seu cheque especial com êxito!");
-                        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // nada aqui
-                            }
-                        });
-
-                        AlertDialog alerta = builder.create();
-                        alerta.show();
-
-                        controllerBancoDados.updateCheque(email, CHEQUEESPECIAL);
-                        binding.chequeEspecialConta.setText(String.valueOf(CHEQUEESPECIAL));
-
-                    }
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                } finally {
-
-                    binding.hintUserValor.setText("");
+                    // Atualizar a interface do usuário com os dados recuperados
+                    binding.saldoConta.setText(String.valueOf(saldo));
+                    binding.chequeEspecialConta.setText(String.valueOf(chequeEspecial));
                 }
             }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Tratar erro de consulta''''''''''''''''''''''''''''''''
+            }
         });
 
-        binding.btnSacar.setOnClickListener(v -> {
-            controllerBancoDados.open();
-
+        binding.btnDepositar.setOnClickListener(v -> {
+            // Lógica de depósito
             String valorCliente = binding.hintUserValor.getText().toString();
 
             if (!valorCliente.isEmpty()) {
-                try {
-                    Double saldo = controllerBancoDados.getSaldoByTitular(email);
-                    Double cheque = controllerBancoDados.getChequeByTitular(email);
-                    Double CHEQUEESPECIAL = controllerBancoDados.getChequeDEFIByTitular(email);
+                Double valorDeposito = Double.parseDouble(valorCliente);
 
-                    Double valorSaque = Double.parseDouble(valorCliente);
+                referencia.child("correntistas").child(String.valueOf(numeroConta)).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            Double saldoAtual = dataSnapshot.child("saldo").getValue(Double.class);
+                            Double novoSaldo = saldoAtual + valorDeposito;
 
-                    if (saldo >= valorSaque) {
-                        // Se o saldo for suficiente, apenas atualize o saldo
-                        Double novoSaldo = saldo - valorSaque;
-                        controllerBancoDados.updateSaldo(email, novoSaldo);
-                        binding.saldoConta.setText(String.valueOf(novoSaldo));
-                    } else {
-                        // Se o saldo não for suficiente, calcule o quanto do cheque especial será utilizado
-                        Double saldoRestante = valorSaque - saldo;
-                        Double novoSaldo = 0 - saldoRestante;
-                        Double novoCheque = cheque - saldoRestante;
+                            // Atualizar saldo no Firebase
+                            referencia.child("correntistas").child(String.valueOf(numeroConta)).child("saldo").setValue(novoSaldo);
 
-                        if (novoCheque < 0) {
-                            // Se o cheque especial não for suficiente, atualize para zero
-                            novoCheque = 0.0;
-                            novoSaldo = saldo - (valorSaque - cheque);
+                            // Atualizar a interface do usuário
+                            binding.saldoConta.setText(String.valueOf(novoSaldo));
                         }
-
-                        // Atualize o saldo e o cheque
-                        controllerBancoDados.updateSaldo(email, novoSaldo);
-                        binding.saldoConta.setText(String.valueOf(novoSaldo));
-                        controllerBancoDados.updateCheque(email, novoCheque);
-                        binding.chequeEspecialConta.setText(String.valueOf(novoCheque));
                     }
-                } catch (NumberFormatException e) {
-                    // Tratar erro de formato inválido
-                    e.printStackTrace();
-                }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Tratar erro de consulta
+                    }
+                });
             } else {
                 // Tratar entrada de valor vazia
             }
+        });
 
+        binding.btnSacar.setOnClickListener(v -> {
+            // Lógica de saque
+            String valorCliente = binding.hintUserValor.getText().toString();
+
+            if (!valorCliente.isEmpty()) {
+                Double valorSaque = Double.parseDouble(valorCliente);
+
+                referencia.child("correntistas").child(String.valueOf(numeroConta)).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            Double saldoAtual = dataSnapshot.child("saldo").getValue(Double.class);
+                            Double novoSaldo = saldoAtual - valorSaque;
+
+                            if (novoSaldo >= 0) {
+                                // Se o saldo for suficiente, atualizar saldo no Firebase
+                                referencia.child("correntistas").child(String.valueOf(numeroConta)).child("saldo").setValue(novoSaldo);
+                                binding.saldoConta.setText(String.valueOf(novoSaldo));
+                            } else {
+                                // Se o saldo não for suficiente, calcular quanto do cheque especial será utilizado
+                                Double chequeEspecialAtual = dataSnapshot.child("cheque_especial").getValue(Double.class);
+                                Double saldoRestante = valorSaque - saldoAtual;
+                                Double novoChequeEspecial = chequeEspecialAtual - saldoRestante;
+
+                                if (novoChequeEspecial < 0) {
+                                    novoChequeEspecial = 0.0;
+                                    novoSaldo = 0.0;
+                                }
+
+                                // Atualizar saldo e cheque especial no Firebase
+                                referencia.child("correntistas").child(String.valueOf(numeroConta)).child("saldo").setValue(novoSaldo);
+                                referencia.child("correntistas").child(String.valueOf(numeroConta)).child("cheque_especial").setValue(novoChequeEspecial);
+
+                                // Atualizar a interface do usuário
+                                binding.saldoConta.setText(String.valueOf(novoSaldo));
+                                binding.chequeEspecialConta.setText(String.valueOf(novoChequeEspecial));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Tratar erro de consulta
+                    }
+                });
+            } else {
+                // Tratar entrada de valor vazia
+            }
         });
 
         binding.btnTransferir.setOnClickListener(v -> {
@@ -159,18 +153,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TRANSFERIR && resultCode == RESULT_OK) {
-            String email = getIntent().getStringExtra("email");
-            controllerBancoDados.open();
-            try {
-                Double saldoBanco = controllerBancoDados.getSaldoByTitular(email);
-                Double chequeBanco = controllerBancoDados.getChequeByTitular(email);
-                binding.saldoConta.setText("R$ " + saldoBanco);
-                binding.chequeEspecialConta.setText(String.valueOf(chequeBanco));
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
+            referencia.child("correntistas").child(String.valueOf(numeroConta)).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // Recuperar os dados de saldo e cheque especial do Firebase
+                        Double saldo = dataSnapshot.child("saldo").getValue(Double.class);
+                        Double chequeEspecial = dataSnapshot.child("cheque_especial").getValue(Double.class);
 
-            }
+                        // Atualizar a interface do usuário com os dados recuperados
+                        binding.saldoConta.setText(String.valueOf(saldo));
+                        binding.chequeEspecialConta.setText(String.valueOf(chequeEspecial));
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Tratar erro de consulta
+                }
+            });
+
         }
     }
 }

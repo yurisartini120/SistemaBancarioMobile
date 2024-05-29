@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-import com.example.bancodip.R;
-import com.example.bancodip.controller.ControllerBancoDados;
-import com.example.bancodip.controller.Util;
 import com.example.bancodip.databinding.ActivityRegisterBinding;
+import com.example.bancodip.controller.Util;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,7 +16,6 @@ import com.google.firebase.database.ValueEventListener;
 public class RegisterActivity extends AppCompatActivity {
 
     private ActivityRegisterBinding binding;
-    private ControllerBancoDados controllerBancoDados;
     private Util util;
     private DatabaseReference referencia;
 
@@ -28,25 +25,41 @@ public class RegisterActivity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        controllerBancoDados = new ControllerBancoDados(this);
         util = new Util();
         referencia = FirebaseDatabase.getInstance().getReference();
 
         binding.btnCriarConta.setOnClickListener(v -> {
-            controllerBancoDados.open();
             String nome = binding.hintTxtRegisterNome.getText().toString().trim();
             String email = binding.hintTxtRegisterEmail.getText().toString().trim();
             String saldo = binding.hintTxtRegisterSaldo.getText().toString().trim();
             String idade = binding.hintTxtRegisterIdade.getText().toString().trim();
 
-            if (!nome.isEmpty() && !email.isEmpty() && !saldo.isEmpty() && util.isValidEmail(email) && !controllerBancoDados.isEmailInDatabase(email)) {
+            if (!nome.isEmpty() && !email.isEmpty() && !saldo.isEmpty() && util.isValidEmail(email)) {
                 double saldoDouble = Double.parseDouble(saldo);
                 double chequeEspecial = saldoDouble * 4;
                 int idadereal = Integer.parseInt(idade);
 
-                obterNumeroDeCorrentistasEAdicionarNovo(nome, email, saldoDouble, chequeEspecial, idadereal);
+                verificarEmailERegistrar(nome, email, saldoDouble, chequeEspecial, idadereal);
             } else {
-                Toast.makeText(getApplicationContext(), "Erro", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Por favor, preencha todos os campos corretamente.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void verificarEmailERegistrar(String nome, String email, double saldo, double chequeEspecial, int idade) {
+        referencia.child("correntistas").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Toast.makeText(RegisterActivity.this, "Email já cadastrado.", Toast.LENGTH_LONG).show();
+                } else {
+                    obterNumeroDeCorrentistasEAdicionarNovo(nome, email, saldo, chequeEspecial, idade);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Firebase", "Erro ao verificar email", databaseError.toException());
             }
         });
     }
@@ -69,8 +82,8 @@ public class RegisterActivity extends AppCompatActivity {
                 novaContaRef.child("saldo").setValue(saldo);
                 novaContaRef.child("tipo").setValue(1);
 
-                // Adicione o novo correntista no banco de dados local
-                controllerBancoDados.insertData(nome, email, saldo, chequeEspecial, chequeEspecial);
+                // Log para verificar se está registrando corretamente
+                Log.d("Firebase", "Novo correntista adicionado: " + nome + ", Conta: " + numeroDaConta);
 
                 // Redirecione para a MainActivity
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
