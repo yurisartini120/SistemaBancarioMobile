@@ -75,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                 DatabaseReference novaContaRef = referencia.child("correntistas").child(String.valueOf(numeroDaConta));
                 novaContaRef.child("ativo").setValue(1);
                 novaContaRef.child("cheque_Especial").setValue(chequeEspecial);
+                novaContaRef.child("cheque_Especial_Fixo").setValue(chequeEspecial);
                 novaContaRef.child("conta").setValue(numeroDaConta);
                 novaContaRef.child("email").setValue(email);
                 novaContaRef.child("idade").setValue(idade);

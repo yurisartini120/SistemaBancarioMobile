@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
                     emailUser = dataSnapshot.child("email").getValue(String.class);
                     Double saldo = dataSnapshot.child("saldo").getValue(Double.class);
                     Double chequeEspecial = dataSnapshot.child("cheque_Especial").getValue(Double.class);
+                    Double chequeEspecial_fixo = dataSnapshot.child("cheque_Especial_Fixo").getValue(Double.class);
 
                     binding.saldoConta.setText(String.valueOf(saldo));
                     binding.chequeEspecialConta.setText(String.valueOf(chequeEspecial));
@@ -66,44 +67,13 @@ public class MainActivity extends AppCompatActivity {
                             Double novoSaldo = saldoAtual + valorDeposito;
                             referencia.child("correntistas").child(String.valueOf(numeroConta)).child("saldo").setValue(novoSaldo);
                             binding.saldoConta.setText(String.valueOf(novoSaldo));
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(MainActivity.this, "Erro ao acessar o banco de dados", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                Toast.makeText(MainActivity.this, "Por favor, insira um valor", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        binding.btnSacar.setOnClickListener(v -> {
-            String valorCliente = binding.hintUserValor.getText().toString();
-            if (!valorCliente.isEmpty()) {
-                Double valorSaque = Double.parseDouble(valorCliente);
-                referencia.child("correntistas").child(String.valueOf(numeroConta)).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            Double saldoAtual = dataSnapshot.child("saldo").getValue(Double.class);
-                            Double novoSaldo = saldoAtual - valorSaque;
-                            if (novoSaldo >= 0) {
-                                referencia.child("correntistas").child(String.valueOf(numeroConta)).child("saldo").setValue(novoSaldo);
-                                binding.saldoConta.setText(String.valueOf(novoSaldo));
-                            } else {
-                                Double chequeEspecialAtual = dataSnapshot.child("cheque_Especial").getValue(Double.class);
-                                Double saldoRestante = valorSaque - saldoAtual;
-                                Double novoChequeEspecial = chequeEspecialAtual - saldoRestante;
-                                if (novoChequeEspecial < 0) {
-                                    novoChequeEspecial = 0.0;
-                                    novoSaldo = 0.0;
-                                }
-                                referencia.child("correntistas").child(String.valueOf(numeroConta)).child("saldo").setValue(novoSaldo);
-                                referencia.child("correntistas").child(String.valueOf(numeroConta)).child("cheque_Especial").setValue(novoChequeEspecial);
-                                binding.saldoConta.setText(String.valueOf(novoSaldo));
-                                binding.chequeEspecialConta.setText(String.valueOf(novoChequeEspecial));
+                            // Verificar se o cheque especial foi usado e agora o saldo está positivo novamente
+                            Double chequeEspecialAtual = dataSnapshot.child("cheque_Especial").getValue(Double.class);
+                            if (novoSaldo >= 0 && chequeEspecialAtual != 0.0) {
+                                // Zerar o cheque especial, já que o saldo está positivo novamente
+                                Double chequeEspecialFixo = dataSnapshot.child("cheque_Especial_Fixo").getValue(Double.class);
+                                referencia.child("correntistas").child(String.valueOf(numeroConta)).child("cheque_Especial").setValue(chequeEspecialFixo);
+                                binding.chequeEspecialConta.setText(String.valueOf(chequeEspecialFixo));
                             }
                         }
                     }
@@ -117,6 +87,55 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Por favor, insira um valor", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        binding.btnSacar.setOnClickListener(v -> {
+            String valorCliente = binding.hintUserValor.getText().toString();
+            if (!valorCliente.isEmpty()) {
+                Double valorSaque = Double.parseDouble(valorCliente);
+                referencia.child("correntistas").child(String.valueOf(numeroConta)).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            Double saldoAtual = dataSnapshot.child("saldo").getValue(Double.class);
+                            Double chequeEspecialAtual = dataSnapshot.child("cheque_Especial").getValue(Double.class);
+
+                            if (saldoAtual >= valorSaque) {
+                                // Se o saldo é suficiente para o saque, apenas diminua o saldo
+                                Double novoSaldo = saldoAtual - valorSaque;
+                                referencia.child("correntistas").child(String.valueOf(numeroConta)).child("saldo").setValue(novoSaldo);
+                                binding.saldoConta.setText(String.valueOf(novoSaldo));
+                            } else if (saldoAtual + chequeEspecialAtual >= valorSaque) {
+                                // Se o saldo + cheque especial for suficiente para o saque, use o cheque especial
+                                Double saqueDoSaldo = saldoAtual;
+                                Double saqueDoChequeEspecial = valorSaque - saldoAtual;
+                                Double novoSaldo = saldoAtual - saqueDoSaldo - saqueDoChequeEspecial;
+                                Double novoChequeEspecial = chequeEspecialAtual - saqueDoChequeEspecial;
+
+                                referencia.child("correntistas").child(String.valueOf(numeroConta)).child("saldo").setValue(novoSaldo);
+                                referencia.child("correntistas").child(String.valueOf(numeroConta)).child("cheque_Especial").setValue(novoChequeEspecial);
+
+                                // Atualize o saldo e o cheque especial
+                                binding.saldoConta.setText(String.valueOf(novoSaldo));
+                                binding.chequeEspecialConta.setText(String.valueOf(novoChequeEspecial));
+                            } else {
+                                // Se o saldo + cheque especial não for suficiente, informe ao usuário
+                                Toast.makeText(MainActivity.this, "Saldo e cheque especial insuficientes para este saque", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(MainActivity.this, "Erro ao acessar o banco de dados", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(MainActivity.this, "Por favor, insira um valor", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
         binding.btnTransferir.setOnClickListener(v -> {
             if (emailUser != null) {
